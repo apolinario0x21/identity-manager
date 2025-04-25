@@ -1,8 +1,11 @@
 package com.example.jwt_auth.service;
 
 import com.example.jwt_auth.Repository.UserRepository;
+import com.example.jwt_auth.dto.UserDTO;
 import com.example.jwt_auth.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,14 @@ public class UserService {
 
         user.setPassword(hashedPassword);
         return userRepository.save(user);
+    }
+
+    public Page<UserDTO> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable).map(user -> new UserDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail()
+        ));
     }
 
     public User findByUsername(String username) {

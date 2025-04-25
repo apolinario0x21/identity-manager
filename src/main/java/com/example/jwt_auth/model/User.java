@@ -2,6 +2,9 @@ package com.example.jwt_auth.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -13,6 +16,28 @@ public class User {
 
     @Column(unique = true, name = "email", nullable = false)
     private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
+
+    public User() {
+    }
+
+    public User(Long id, String username, String password, String email) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+
+        this.email = email;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
 
     public Long getId() {
         return id;

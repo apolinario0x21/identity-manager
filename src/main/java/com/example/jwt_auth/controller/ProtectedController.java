@@ -12,6 +12,7 @@ public class ProtectedController {
 
     @GetMapping("/protected")
     public String getProtectedResource(Authentication authentication) {
+
         System.out.println("Usuário autenticado: " + authentication.getName());
         System.out.println("Roles do usuário: " + authentication.getAuthorities());
         return "Você acessou um recurso protegido!";
